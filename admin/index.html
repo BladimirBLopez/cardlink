@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CardLink - Panel Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f9fafb;
+      color: #111;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo { font-size: 1.2rem; font-weight: 800; }
+    .logo span { color: #6c63ff; }
+
+    .save-btn {
+      background: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: opacity 0.2s;
+    }
+
+    .save-btn:hover { opacity: 0.8; }
+    .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .container { grid-template-columns: 1fr; }
+      .preview-col { order: -1; }
+    }
+
+    /* FORM */
+    .form-col { display: flex; flex-direction: column; gap: 20px; }
+
+    .card-section {
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 22px;
+    }
+
+    .card-section h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #374151;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .field { margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      color: #111;
+      background: #f9fafb;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #6c63ff;
+      background: #fff;
+    }
+
+    textarea { resize: vertical; min-height: 80px; }
+
+    .color-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .color-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      background: #f9fafb;
+      cursor: pointer;
+    }
+
+    input[type="color"] {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 0;
+      background: none;
+    }
+
+    .color-label { font-size: 0.82rem; font-weight: 500; color: #374151; }
+
+    /* LINKS */
+    .links-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .link-item {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .link-item input { flex: 1; }
+
+    .remove-link {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      background: #fee2e2;
+      border: none;
+      border-radius: 8px;
+      color: #dc2626;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .add-link-btn {
+      margin-top: 10px;
+      background: #f3f4f6;
+      border: 1.5px dashed #d1d5db;
+      border-radius: 10px;
+      padding: 10px;
+      width: 100%;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #6b7280;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background 0.2s;
+    }
+
+    .add-link-btn:hover { background: #e5e7eb; }
+
+    /* AVATAR */
+    .avatar-upload {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .avatar-preview {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #e5e7eb;
+    }
+
+    .upload-btn {
+      background: #f3f4f6;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      color: #374151;
+      transition: background 0.2s;
+    }
+
+    .upload-btn:hover { background: #e5e7eb; }
+
+    /* USERNAME */
+    .username-wrap {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f9fafb;
+    }
+
+    .username-prefix {
+      padding: 10px 12px;
+      background: #f3f4f6;
+      font-size: 0.82rem;
+      color: #9ca3af;
+      font-weight: 500;
+      white-space: nowrap;
+      border-right: 1.5px solid #e5e7eb;
+    }
+
+    .username-wrap input {
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      flex: 1;
+    }
+
+    .username-wrap input:focus { border: none; box-shadow: none; }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #111;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: transform 0.3s;
+      z-index: 999;
+    }
+
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { background: #16a34a; }
+    .toast.error { background: #dc2626; }
+
+    /* PREVIEW */
+    .preview-col { position: sticky; top: 80px; height: fit-content; }
+
+    .preview-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .phone-frame {
+      width: 240px;
+      background: #111;
+      border-radius: 36px;
+      padding: 8px;
+      margin: 0 auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    .phone-screen {
+      background: #fff;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+
+    .prev-cover {
+      height: 70px;
+      transition: background 0.3s;
+    }
+
+    .prev-body {
+      padding: 0 14px 16px;
+      text-align: center;
+    }
+
+    .prev-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      margin-top: -30px;
+      margin-bottom: 8px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .prev-name { font-size: 0.9rem; font-weight: 800; color: #111; margin-bottom: 2px; }
+    .prev-role { font-size: 0.68rem; font-weight: 600; margin-bottom: 6px; }
+    .prev-bio { font-size: 0.65rem; color: #9ca3af; line-height: 1.4; margin-bottom: 12px; }
+
+    .prev-links { display: flex; flex-direction: column; gap: 6px; }
+
+    .prev-link {
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+    }
+
+    .prev-link.wa { background: #25d366; }
+    .prev-link.web { background: #6c63ff; }
+    .prev-link.ig { background: linear-gradient(135deg, #f09433, #dc2743); }
+    .prev-link.em { background: #374151; }
+
+    .prev-url {
+      margin-top: 10px;
+      font-size: 0.6rem;
+      color: #d1d5db;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .url-box {
+      margin-top: 14px;
+      background: #f3f4f6;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.78rem;
+      color: #6b7280;
+      word-break: break-all;
+      text-align: center;
+    }
+
+    .url-box strong { display: block; color: #111; font-size: 0.82rem; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">💳 Card<span>Link</span> <span style="font-size:0.75rem; color:#9ca3af; font-weight:500">Admin</span></div>
+  <button class="save-btn" id="saveBtn">Guardar tarjeta</button>
+</header>
+
+<div class="container">
+
+  <!-- FORMULARIO -->
+  <div class="form-col">
+
+    <!-- USERNAME -->
+    <div class="card-section">
+      <h3>🔗 Tu link único</h3>
+      <div class="field">
+        <label>Username</label>
+        <div class="username-wrap">
+          <span class="username-prefix">cardlink.app/</span>
+          <input type="text" id="username" placeholder="tunombre" maxlength="30"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERFIL -->
+    <div class="card-section">
+      <h3>👤 Información personal</h3>
+
+      <div class="field">
+        <label>Foto de perfil</label>
+        <div class="avatar-upload">
+          <img id="avatarPreview" src="https://ui-avatars.com/api/?name=Tu+Nombre&background=6c63ff&color=fff&size=120" class="avatar-preview"/>
+          <div>
+            <button class="upload-btn" onclick="document.getElementById('avatarFile').click()">📷 Subir foto</button>
+            <input type="file" id="avatarFile" accept="image/*" style="display:none"/>
+            <p style="font-size:0.72rem; color:#9ca3af; margin-top:6px;">JPG, PNG · Max 2MB</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nombre completo *</label>
+        <input type="text" id="name" placeholder="Ej: Ana García"/>
+      </div>
+
+      <div class="field">
+        <label>Cargo o profesión</label>
+        <input type="text" id="role" placeholder="Ej: Diseñadora UX · Freelance"/>
+      </div>
+
+      <div class="field">
+        <label>Biografía</label>
+        <textarea id="bio" placeholder="Cuéntale a tus visitantes quién eres..."></textarea>
+      </div>
+    </div>
+
+    <!-- CONTACTO -->
+    <div class="card-section">
+      <h3>📱 Redes y contacto</h3>
+
+      <div class="field">
+        <label>WhatsApp (con código de país)</label>
+        <input type="tel" id="whatsapp" placeholder="591 70000000"/>
+      </div>
+
+      <div class="field">
+        <label>Sitio web</label>
+        <input type="url" id="website" placeholder="https://miweb.com"/>
+      </div>
+
+      <div class="field">
+        <label>Instagram</label>
+        <input type="text" id="instagram" placeholder="@usuario"/>
+      </div>
+
+      <div class="field">
+        <label>Twitter / X</label>
+        <input type="text" id="twitter" placeholder="@usuario"/>
+      </div>
+
+      <div class="field">
+        <label>LinkedIn</label>
+        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/usuario"/>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="correo@ejemplo.com"/>
+      </div>
+    </div>
+
+    <!-- LINKS PERSONALIZADOS -->
+    <div class="card-section">
+      <h3>🔗 Links personalizados</h3>
+      <div class="links-list" id="linksList"></div>
+      <button class="add-link-btn" id="addLinkBtn">+ Agregar link</button>
+    </div>
+
+    <!-- COLORES -->
+    <div class="card-section">
+      <h3>🎨 Colores de tu tarjeta</h3>
+      <div class="color-row">
+        <div class="color-field">
+          <input type="color" id="primaryColor" value="#6c63ff"/>
+          <span class="color-label">Color primario</span>
+        </div>
+        <div class="color-field">
+          <input type="color" id="secondaryColor" value="#a855f7"/>
+          <span class="color-label">Color secundario</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-col">
+    <div class="preview-label">Vista previa en tiempo real</div>
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="prev-cover" id="prevCover"></div>
+        <div class="prev-body">
+          <img id="prevAvatar" src="https://ui-avatars.com/api/?name=Tu+Nombre&background=6c63ff&color=fff&size=120" class="prev-avatar"/>
+          <div class="prev-name" id="prevName">Tu Nombre</div>
+          <div class="prev-role" id="prevRole" style="color:#6c63ff">Tu cargo</div>
+          <div class="prev-bio" id="prevBio">Tu biografía aparecerá aquí...</div>
+          <div class="prev-links">
+            <div class="prev-link wa" id="prevWa" style="display:none">💬 WhatsApp</div>
+            <div class="prev-link web" id="prevWeb" style="display:none">🌐 Sitio web</div>
+            <div class="prev-link ig" id="prevIg" style="display:none">📸 Instagram</div>
+            <div class="prev-link em" id="prevEm" style="display:none">📧 Email</div>
+          </div>
+          <div class="prev-url" id="prevUrl">cardlink.app/tunombre</div>
+        </div>
+      </div>
+    </div>
+    <div class="url-box" id="urlBox" style="display:none">
+      <strong>🎉 Tu link público</strong>
+      <span id="publicUrl"></span>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const SUPABASE_URL = 'https://lycezxiivraellfvbcch.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_93XsNvW9wr4tUH2hzdVZFw_SjApm6iV';
+
+  // Preview en tiempo real
+  document.getElementById('name').addEventListener('input', e => {
+    document.getElementById('prevName').textContent = e.target.value || 'Tu Nombre';
+  });
+
+  document.getElementById('role').addEventListener('input', e => {
+    document.getElementById('prevRole').textContent = e.target.value || 'Tu cargo';
+  });
+
+  document.getElementById('bio').addEventListener('input', e => {
+    document.getElementById('prevBio').textContent = e.target.value || 'Tu biografía aparecerá aquí...';
+  });
+
+  document.getElementById('whatsapp').addEventListener('input', e => {
+    document.getElementById('prevWa').style.display = e.target.value ? 'block' : 'none';
+  });
+
+  document.getElementById('website').addEventListener('input', e => {
+    document.getElementById('prevWeb').style.display = e.target.value ? 'block' : 'none';
+  });
+
+  document.getElementById('instagram').addEventListener('input', e => {
+    document.getElementById('prevIg').style.display = e.target.value ? 'block' : 'none';
+  });
+
+  document.getElementById('email').addEventListener('input', e => {
+    document.getElementById('prevEm').style.display = e.target.value ? 'block' : 'none';
+  });
+
+  document.getElementById('username').addEventListener('input', e => {
+    const val = e.target.value || 'tunombre';
+    document.getElementById('prevUrl').textContent = 'cardlink.app/' + val;
+  });
+
+  // Colores
+  function updateColors() {
+    const p = document.getElementById('primaryColor').value;
+    const s = document.getElementById('secondaryColor').value;
+    document.getElementById('prevCover').style.background = `linear-gradient(135deg, ${p}, ${s})`;
+    document.getElementById('prevRole').style.color = p;
+  }
+
+  document.getElementById('primaryColor').addEventListener('input', updateColors);
+  document.getElementById('secondaryColor').addEventListener('input', updateColors);
+  updateColors();
+
+  // Avatar preview
+  document.getElementById('avatarFile').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById('avatarPreview').src = ev.target.result;
+      document.getElementById('prevAvatar').src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Links personalizados
+  let customLinks = [];
+
+  document.getElementById('addLinkBtn').addEventListener('click', () => {
+    const id = Date.now();
+    customLinks.push({ id, label: '', url: '' });
+    renderLinks();
+  });
+
+  function renderLinks() {
+    const list = document.getElementById('linksList');
+    list.innerHTML = customLinks.map(link => `
+      <div class="link-item">
+        <input type="text" placeholder="Nombre del link" value="${link.label}"
+          oninput="updateLink(${link.id}, 'label', this.value)"/>
+        <input type="url" placeholder="https://..." value="${link.url}"
+          oninput="updateLink(${link.id}, 'url', this.value)"/>
+        <button class="remove-link" onclick="removeLink(${link.id})">✕</button>
+      </div>
+    `).join('');
+  }
+
+  function updateLink(id, field, value) {
+    const link = customLinks.find(l => l.id === id);
+    if (link) link[field] = value;
+  }
+
+  function removeLink(id) {
+    customLinks = customLinks.filter(l => l.id !== id);
+    renderLinks();
+  }
+
+  // Toast
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.className = 'toast', 3000);
+  }
+
+  // Guardar
+  document.getElementById('saveBtn').addEventListener('click', async () => {
+    const username = document.getElementById('username').value.trim().toLowerCase();
+    const name = document.getElementById('name').value.trim();
+
+    if (!username) return showToast('⚠️ Escribe tu username', 'error');
+    if (!name) return showToast('⚠️ Escribe tu nombre', 'error');
+    if (!/^[a-z0-9_-]+$/.test(username)) return showToast('⚠️ Username solo letras, números y guiones', 'error');
+
+    const btn = document.getElementById('saveBtn');
+    btn.disabled = true;
+    btn.textContent = 'Guardando...';
+
+    const data = {
+      username,
+      name,
+      role: document.getElementById('role').value.trim(),
+      bio: document.getElementById('bio').value.trim(),
+      whatsapp: document.getElementById('whatsapp').value.trim(),
+      website: document.getElementById('website').value.trim(),
+      instagram: document.getElementById('instagram').value.trim(),
+      twitter: document.getElementById('twitter').value.trim(),
+      linkedin: document.getElementById('linkedin').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      custom_links: customLinks,
+      primary_color: document.getElementById('primaryColor').value,
+      secondary_color: document.getElementById('secondaryColor').value,
+      avatar_url: document.getElementById('avatarPreview').src,
+    };
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/cards`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'resolution=merge-duplicates'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!res.ok) throw new Error('Error al guardar');
+
+      const url = `${window.location.origin}/card/${username}`;
+      document.getElementById('urlBox').style.display = 'block';
+      document.getElementById('publicUrl').textContent = url;
+      showToast('✅ Tarjeta guardada exitosamente', 'success');
+
+    } catch (err) {
+      showToast('❌ Error: ' + err.message, 'error');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Guardar tarjeta';
+  });
+</script>
+
+</body>
+</html>

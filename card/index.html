@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CardLink</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f3f4f6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cover {
+      width: 100%;
+      height: 160px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      padding: 0 16px 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 0 24px 28px;
+      text-align: center;
+      margin-top: 100px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      object-fit: cover;
+      margin-top: -45px;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+
+    .name {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 4px;
+    }
+
+    .role {
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .bio {
+      font-size: 0.85rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .links-section {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .link-btn {
+      display: block;
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-decoration: none;
+      color: #fff;
+      text-align: center;
+      transition: transform 0.2s, opacity 0.2s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .link-btn:active { transform: scale(0.97); opacity: 0.9; }
+
+    .link-btn.whatsapp { background: #25d366; }
+    .link-btn.website { background: #6c63ff; }
+    .link-btn.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743); }
+    .link-btn.twitter { background: #000; }
+    .link-btn.linkedin { background: #0077b5; }
+    .link-btn.email { background: #374151; }
+    .link-btn.custom { background: #6b7280; }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .social-pill {
+      padding: 8px 16px;
+      border-radius: 50px;
+      background: #f3f4f6;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #374151;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .social-pill:hover { background: #e5e7eb; }
+
+    .brand {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      font-weight: 500;
+    }
+
+    .brand a {
+      color: #6c63ff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      gap: 16px;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid #e5e7eb;
+      border-top-color: #6c63ff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .not-found {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .not-found h2 { font-size: 1.2rem; font-weight: 800; color: #111; }
+    .not-found p { color: #6b7280; font-size: 0.88rem; }
+    .not-found a {
+      margin-top: 8px;
+      background: #111;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <div class="loading">
+    <div class="spinner"></div>
+    <span>Cargando tarjeta...</span>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://lycezxiivraellfvbcch.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_93XsNvW9wr4tUH2hzdVZFw_SjApm6iV';
+
+  async function loadCard() {
+    const path = window.location.pathname;
+    const username = path.split('/').filter(Boolean).pop();
+
+    if (!username || username === 'card') {
+      showNotFound();
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/cards?username=eq.${username}&select=*`,
+        {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`
+          }
+        }
+      );
+
+      const data = await res.json();
+
+      if (!data || data.length === 0) {
+        showNotFound();
+        return;
+      }
+
+      renderCard(data[0]);
+
+    } catch (err) {
+      showNotFound();
+    }
+  }
+
+  function renderCard(card) {
+    const avatarSrc = card.avatar_url ||
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(card.name)}&background=6c63ff&color=fff&size=120`;
+
+    // Meta tags dinámicos
+    document.title = `${card.name} - CardLink`;
+
+    let linksHTML = '';
+
+    if (card.whatsapp) {
+      const num = card.whatsapp.replace(/\D/g, '');
+      linksHTML += `<a href="https://wa.me/${num}" target="_blank" class="link-btn whatsapp">💬 WhatsApp</a>`;
+    }
+    if (card.website) {
+      linksHTML += `<a href="${card.website}" target="_blank" class="link-btn website">🌐 Sitio web</a>`;
+    }
+    if (card.instagram) {
+      const ig = card.instagram.replace('@', '');
+      linksHTML += `<a href="https://instagram.com/${ig}" target="_blank" class="link-btn instagram">📸 Instagram</a>`;
+    }
+    if (card.email) {
+      linksHTML += `<a href="mailto:${card.email}" class="link-btn email">📧 ${card.email}</a>`;
+    }
+    if (card.linkedin) {
+      linksHTML += `<a href="${card.linkedin}" target="_blank" class="link-btn linkedin">💼 LinkedIn</a>`;
+    }
+    if (card.twitter) {
+      const tw = card.twitter.replace('@', '');
+      linksHTML += `<a href="https://twitter.com/${tw}" target="_blank" class="link-btn twitter">🐦 Twitter / X</a>`;
+    }
+
+    // Links personalizados
+    if (card.custom_links && card.custom_links.length > 0) {
+      card.custom_links.forEach(link => {
+        if (link.label && link.url) {
+          linksHTML += `<a href="${link.url}" target="_blank" class="link-btn custom">🔗 ${link.label}</a>`;
+        }
+      });
+    }
+
+    document.getElementById('app').innerHTML = `
+      <div class="cover" style="background: linear-gradient(135deg, ${card.primary_color || '#6c63ff'}, ${card.secondary_color || '#a855f7'})"></div>
+      <div class="page">
+        <div class="profile-box">
+          <img src="${avatarSrc}" class="avatar" alt="${card.name}"/>
+          <h1 class="name">${card.name}</h1>
+          ${card.role ? `<p class="role" style="color:${card.primary_color || '#6c63ff'}">${card.role}</p>` : ''}
+          ${card.bio ? `<p class="bio">${card.bio}</p>` : ''}
+          <div class="links-section">
+            ${linksHTML}
+          </div>
+        </div>
+        <div class="brand">
+          Creado con <a href="/">CardLink</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function showNotFound() {
+    document.getElementById('app').innerHTML = `
+      <div class="not-found">
+        <div style="font-size:3rem">😕</div>
+        <h2>Tarjeta no encontrada</h2>
+        <p>El usuario que buscas no existe o fue eliminado</p>
+        <a href="/">Crear mi tarjeta</a>
+      </div>
+    `;
+  }
+
+  loadCard();
+</script>
+
+</body>
+</html>
