@@ -647,16 +647,20 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
         body: JSON.stringify(data)
       });
 
-      if (!res.ok) throw new Error('Error al guardar');
-
+      if (!res.ok) {
+  const errData = await res.text();
+  throw new Error(errData);
+}
       const url = `${window.location.origin}/card/${username}`;
       document.getElementById('urlBox').style.display = 'block';
       document.getElementById('publicUrl').textContent = url;
       showToast('✅ Tarjeta guardada exitosamente', 'success');
 
     } catch (err) {
-      showToast('❌ Error: ' + err.message, 'error');
-    }
+  showToast('❌ Error: ' + err.message, 'error');
+  console.log('Error completo:', err);
+  alert('Error: ' + err.message);
+}
 
     btn.disabled = false;
     btn.textContent = 'Guardar tarjeta';
