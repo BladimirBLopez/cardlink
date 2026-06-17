@@ -51,7 +51,7 @@
       margin: 0 auto;
       padding: 30px 20px;
       display: grid;
-      grid-template-columns: 1fr 340px;
+      grid-template-columns: 1fr 300px;
       gap: 24px;
     }
 
@@ -60,7 +60,6 @@
       .preview-col { order: -1; }
     }
 
-    /* FORM */
     .form-col { display: flex; flex-direction: column; gap: 20px; }
 
     .card-section {
@@ -116,6 +115,96 @@
 
     textarea { resize: vertical; min-height: 80px; }
 
+    /* THEMES */
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .theme-card {
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .theme-card:hover { transform: translateY(-2px); }
+    .theme-card.active { border-color: #6c63ff; }
+
+    .theme-preview {
+      height: 36px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+    }
+
+    .theme-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    /* BUTTON STYLES */
+    .btn-styles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .btn-style-opt {
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .btn-style-opt.active { border-color: #6c63ff; background: #f5f3ff; }
+
+    .btn-preview {
+      height: 28px;
+      background: #6c63ff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .btn-style-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    /* BG TYPE */
+    .bg-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .bg-opt {
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #374151;
+      transition: border-color 0.2s;
+    }
+
+    .bg-opt.active { border-color: #6c63ff; background: #f5f3ff; color: #6c63ff; }
+
+    /* COLORS */
     .color-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -148,12 +237,7 @@
     /* LINKS */
     .links-list { display: flex; flex-direction: column; gap: 10px; }
 
-    .link-item {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
+    .link-item { display: flex; gap: 8px; align-items: center; }
     .link-item input { flex: 1; }
 
     .remove-link {
@@ -166,9 +250,6 @@
       color: #dc2626;
       font-size: 1rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .add-link-btn {
@@ -183,18 +264,10 @@
       color: #6b7280;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
-      transition: background 0.2s;
     }
-
-    .add-link-btn:hover { background: #e5e7eb; }
 
     /* AVATAR */
-    .avatar-upload {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+    .avatar-upload { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 
     .avatar-preview {
       width: 72px;
@@ -214,10 +287,7 @@
       cursor: pointer;
       font-family: 'Inter', sans-serif;
       color: #374151;
-      transition: background 0.2s;
     }
-
-    .upload-btn:hover { background: #e5e7eb; }
 
     /* USERNAME */
     .username-wrap {
@@ -246,8 +316,6 @@
       flex: 1;
     }
 
-    .username-wrap input:focus { border: none; box-shadow: none; }
-
     /* TOAST */
     .toast {
       position: fixed;
@@ -262,6 +330,7 @@
       font-weight: 600;
       transition: transform 0.3s;
       z-index: 999;
+      white-space: nowrap;
     }
 
     .toast.show { transform: translateX(-50%) translateY(0); }
@@ -278,10 +347,11 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 12px;
+      text-align: center;
     }
 
     .phone-frame {
-      width: 240px;
+      width: 220px;
       background: #111;
       border-radius: 36px;
       padding: 8px;
@@ -290,20 +360,14 @@
     }
 
     .phone-screen {
-      background: #fff;
       border-radius: 30px;
       overflow: hidden;
+      min-height: 400px;
     }
 
-    .prev-cover {
-      height: 70px;
-      transition: background 0.3s;
-    }
+    .prev-cover { height: 70px; transition: background 0.3s; }
 
-    .prev-body {
-      padding: 0 14px 16px;
-      text-align: center;
-    }
+    .prev-body { padding: 0 12px 16px; text-align: center; }
 
     .prev-avatar {
       width: 60px;
@@ -316,31 +380,29 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    .prev-name { font-size: 0.9rem; font-weight: 800; color: #111; margin-bottom: 2px; }
+    .prev-name { font-size: 0.88rem; font-weight: 800; color: #111; margin-bottom: 2px; }
     .prev-role { font-size: 0.68rem; font-weight: 600; margin-bottom: 6px; }
-    .prev-bio { font-size: 0.65rem; color: #9ca3af; line-height: 1.4; margin-bottom: 12px; }
+    .prev-bio { font-size: 0.62rem; color: #9ca3af; line-height: 1.4; margin-bottom: 10px; }
 
     .prev-links { display: flex; flex-direction: column; gap: 6px; }
 
     .prev-link {
       padding: 8px;
-      border-radius: 8px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
       color: #fff;
       text-align: center;
+      transition: all 0.3s;
     }
 
     .prev-link.wa { background: #25d366; }
-    .prev-link.web { background: #6c63ff; }
     .prev-link.ig { background: linear-gradient(135deg, #f09433, #dc2743); }
     .prev-link.em { background: #374151; }
 
     .prev-url {
       margin-top: 10px;
-      font-size: 0.6rem;
-      color: #d1d5db;
-      text-align: center;
+      font-size: 0.58rem;
+      color: #9ca3af;
       font-weight: 600;
     }
 
@@ -348,14 +410,14 @@
       margin-top: 14px;
       background: #f3f4f6;
       border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 0.78rem;
+      padding: 12px;
+      font-size: 0.75rem;
       color: #6b7280;
       word-break: break-all;
       text-align: center;
     }
 
-    .url-box strong { display: block; color: #111; font-size: 0.82rem; margin-bottom: 4px; }
+    .url-box strong { display: block; color: #111; font-size: 0.8rem; margin-bottom: 4px; }
   </style>
 </head>
 <body>
@@ -366,8 +428,6 @@
 </header>
 
 <div class="container">
-
-  <!-- FORMULARIO -->
   <div class="form-col">
 
     <!-- USERNAME -->
@@ -385,7 +445,6 @@
     <!-- PERFIL -->
     <div class="card-section">
       <h3>👤 Información personal</h3>
-
       <div class="field">
         <label>Foto de perfil</label>
         <div class="avatar-upload">
@@ -397,17 +456,14 @@
           </div>
         </div>
       </div>
-
       <div class="field">
         <label>Nombre completo *</label>
         <input type="text" id="name" placeholder="Ej: Ana García"/>
       </div>
-
       <div class="field">
         <label>Cargo o profesión</label>
         <input type="text" id="role" placeholder="Ej: Diseñadora UX · Freelance"/>
       </div>
-
       <div class="field">
         <label>Biografía</label>
         <textarea id="bio" placeholder="Cuéntale a tus visitantes quién eres..."></textarea>
@@ -417,32 +473,26 @@
     <!-- CONTACTO -->
     <div class="card-section">
       <h3>📱 Redes y contacto</h3>
-
       <div class="field">
-        <label>WhatsApp (con código de país)</label>
+        <label>WhatsApp</label>
         <input type="tel" id="whatsapp" placeholder="591 70000000"/>
       </div>
-
       <div class="field">
         <label>Sitio web</label>
         <input type="url" id="website" placeholder="https://miweb.com"/>
       </div>
-
       <div class="field">
         <label>Instagram</label>
         <input type="text" id="instagram" placeholder="@usuario"/>
       </div>
-
       <div class="field">
         <label>Twitter / X</label>
         <input type="text" id="twitter" placeholder="@usuario"/>
       </div>
-
       <div class="field">
         <label>LinkedIn</label>
         <input type="url" id="linkedin" placeholder="https://linkedin.com/in/usuario"/>
       </div>
-
       <div class="field">
         <label>Email</label>
         <input type="email" id="email" placeholder="correo@ejemplo.com"/>
@@ -456,17 +506,109 @@
       <button class="add-link-btn" id="addLinkBtn">+ Agregar link</button>
     </div>
 
-    <!-- COLORES -->
+    <!-- TEMAS -->
     <div class="card-section">
-      <h3>🎨 Colores de tu tarjeta</h3>
-      <div class="color-row">
-        <div class="color-field">
-          <input type="color" id="primaryColor" value="#6c63ff"/>
-          <span class="color-label">Color primario</span>
+      <h3>🎨 Tema</h3>
+      <div class="themes-grid" id="themesGrid">
+        <div class="theme-card active" data-theme="default" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #6c63ff, #a855f7)"></div>
+          <div class="theme-name">Púrpura</div>
         </div>
+        <div class="theme-card" data-theme="ocean" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #0ea5e9, #06b6d4)"></div>
+          <div class="theme-name">Océano</div>
+        </div>
+        <div class="theme-card" data-theme="sunset" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #f97316, #ef4444)"></div>
+          <div class="theme-name">Sunset</div>
+        </div>
+        <div class="theme-card" data-theme="forest" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #22c55e, #16a34a)"></div>
+          <div class="theme-name">Bosque</div>
+        </div>
+        <div class="theme-card" data-theme="night" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #1e1b4b, #312e81)"></div>
+          <div class="theme-name">Noche</div>
+        </div>
+        <div class="theme-card" data-theme="rose" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #f43f5e, #ec4899)"></div>
+          <div class="theme-name">Rosa</div>
+        </div>
+        <div class="theme-card" data-theme="gold" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #f59e0b, #d97706)"></div>
+          <div class="theme-name">Dorado</div>
+        </div>
+        <div class="theme-card" data-theme="dark" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: linear-gradient(135deg, #111, #374151)"></div>
+          <div class="theme-name">Oscuro</div>
+        </div>
+        <div class="theme-card" data-theme="custom" onclick="selectTheme(this)">
+          <div class="theme-preview" style="background: conic-gradient(red, yellow, green, blue, red)"></div>
+          <div class="theme-name">Custom</div>
+        </div>
+      </div>
+
+      <!-- Custom colors -->
+      <div id="customColors" style="display:none; margin-top:14px;">
+        <div class="color-row">
+          <div class="color-field">
+            <input type="color" id="primaryColor" value="#6c63ff"/>
+            <span class="color-label">Color 1</span>
+          </div>
+          <div class="color-field">
+            <input type="color" id="secondaryColor" value="#a855f7"/>
+            <span class="color-label">Color 2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTILO DE BOTONES -->
+    <div class="card-section">
+      <h3>🔘 Estilo de botones</h3>
+      <div class="btn-styles">
+        <div class="btn-style-opt active" data-style="rounded" onclick="selectBtnStyle(this)">
+          <div class="btn-preview" style="border-radius: 50px">Link</div>
+          <div class="btn-style-name">Pill</div>
+        </div>
+        <div class="btn-style-opt" data-style="soft" onclick="selectBtnStyle(this)">
+          <div class="btn-preview" style="border-radius: 10px">Link</div>
+          <div class="btn-style-name">Suave</div>
+        </div>
+        <div class="btn-style-opt" data-style="square" onclick="selectBtnStyle(this)">
+          <div class="btn-preview" style="border-radius: 0">Link</div>
+          <div class="btn-style-name">Cuadrado</div>
+        </div>
+        <div class="btn-style-opt" data-style="outline" onclick="selectBtnStyle(this)">
+          <div class="btn-preview" style="border-radius: 50px; background: transparent; border: 2px solid #6c63ff; color: #6c63ff">Link</div>
+          <div class="btn-style-name">Outline</div>
+        </div>
+        <div class="btn-style-opt" data-style="shadow" onclick="selectBtnStyle(this)">
+          <div class="btn-preview" style="border-radius: 10px; box-shadow: 0 4px 10px rgba(108,99,255,0.4)">Link</div>
+          <div class="btn-style-name">Sombra</div>
+        </div>
+        <div class="btn-style-opt" data-style="glass" onclick="selectBtnStyle(this)">
+          <div class="btn-preview" style="border-radius: 10px; background: rgba(108,99,255,0.2); backdrop-filter: blur(10px)">Link</div>
+          <div class="btn-style-name">Glass</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FONDO -->
+    <div class="card-section">
+      <h3>🖼️ Fondo de la página</h3>
+      <div class="bg-options">
+        <div class="bg-opt active" data-bg="white" onclick="selectBg(this)">⬜ Blanco</div>
+        <div class="bg-opt" data-bg="light" onclick="selectBg(this)">🌫️ Gris claro</div>
+        <div class="bg-opt" data-bg="dark" onclick="selectBg(this)">⬛ Oscuro</div>
+        <div class="bg-opt" data-bg="gradient" onclick="selectBg(this)">🌈 Gradiente</div>
+        <div class="bg-opt" data-bg="color" onclick="selectBg(this)">🎨 Color</div>
+        <div class="bg-opt" data-bg="mesh" onclick="selectBg(this)">✨ Mesh</div>
+      </div>
+      <div id="bgColorPicker" style="display:none;">
         <div class="color-field">
-          <input type="color" id="secondaryColor" value="#a855f7"/>
-          <span class="color-label">Color secundario</span>
+          <input type="color" id="bgColor" value="#f9fafb"/>
+          <span class="color-label">Color de fondo</span>
         </div>
       </div>
     </div>
@@ -475,20 +617,19 @@
 
   <!-- PREVIEW -->
   <div class="preview-col">
-    <div class="preview-label">Vista previa en tiempo real</div>
+    <div class="preview-label">Vista previa</div>
     <div class="phone-frame">
-      <div class="phone-screen">
+      <div class="phone-screen" id="phoneScreen">
         <div class="prev-cover" id="prevCover"></div>
-        <div class="prev-body">
+        <div class="prev-body" id="prevBody">
           <img id="prevAvatar" src="https://ui-avatars.com/api/?name=Tu+Nombre&background=6c63ff&color=fff&size=120" class="prev-avatar"/>
           <div class="prev-name" id="prevName">Tu Nombre</div>
           <div class="prev-role" id="prevRole" style="color:#6c63ff">Tu cargo</div>
-          <div class="prev-bio" id="prevBio">Tu biografía aparecerá aquí...</div>
+          <div class="prev-bio" id="prevBio">Tu biografía...</div>
           <div class="prev-links">
-            <div class="prev-link wa" id="prevWa" style="display:none">💬 WhatsApp</div>
-            <div class="prev-link web" id="prevWeb" style="display:none">🌐 Sitio web</div>
-            <div class="prev-link ig" id="prevIg" style="display:none">📸 Instagram</div>
-            <div class="prev-link em" id="prevEm" style="display:none">📧 Email</div>
+            <div class="prev-link wa" id="prevWa" style="display:none; border-radius:50px">💬 WhatsApp</div>
+            <div class="prev-link ig" id="prevIg" style="display:none; border-radius:50px">📸 Instagram</div>
+            <div class="prev-link em" id="prevEm" style="display:none; border-radius:50px">📧 Email</div>
           </div>
           <div class="prev-url" id="prevUrl">cardlink.app/tunombre</div>
         </div>
@@ -499,15 +640,112 @@
       <span id="publicUrl"></span>
     </div>
   </div>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
   const SUPABASE_URL = 'https://lycezxiivraellfvbcch.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5Y2V6eGlpdnJhZWxsZnZiY2NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MTE0NjcsImV4cCI6MjA5NzE4NzQ2N30.VbdxGDA4zbV711HSP2jVCPogpU1kGAWyqF7lf0Evvc8';
-  // Preview en tiempo real
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5Y2V6eGlpdnJhZWxsZnZiY2NoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MTE0NjcsImV4cCI6MjA5NzE4NzQ2N30.VbdxGDA4zbV711HSP2jVCPogpU1kGAWyqF7lf0Evvc8';
+
+  const themes = {
+    default: { p: '#6c63ff', s: '#a855f7' },
+    ocean:   { p: '#0ea5e9', s: '#06b6d4' },
+    sunset:  { p: '#f97316', s: '#ef4444' },
+    forest:  { p: '#22c55e', s: '#16a34a' },
+    night:   { p: '#1e1b4b', s: '#312e81' },
+    rose:    { p: '#f43f5e', s: '#ec4899' },
+    gold:    { p: '#f59e0b', s: '#d97706' },
+    dark:    { p: '#111',    s: '#374151' },
+    custom:  null
+  };
+
+  const bgStyles = {
+    white:    { bg: '#ffffff', color: '#111' },
+    light:    { bg: '#f3f4f6', color: '#111' },
+    dark:     { bg: '#111827', color: '#fff' },
+    gradient: { bg: 'linear-gradient(135deg, #f5f3ff, #ede9fe)', color: '#111' },
+    mesh:     { bg: 'radial-gradient(at 40% 20%, #ddd6fe 0px, transparent 50%), radial-gradient(at 80% 0%, #e0f2fe 0px, transparent 50%), radial-gradient(at 0% 50%, #fce7f3 0px, transparent 50%), #f9fafb', color: '#111' },
+    color:    null
+  };
+
+  let currentTheme = 'default';
+  let currentBtnStyle = 'rounded';
+  let currentBg = 'white';
+  let customLinks = [];
+
+  // THEME
+  function selectTheme(el) {
+    document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    currentTheme = el.dataset.theme;
+    document.getElementById('customColors').style.display = currentTheme === 'custom' ? 'block' : 'none';
+    updatePreviewColors();
+  }
+
+  function getThemeColors() {
+    if (currentTheme === 'custom') {
+      return {
+        p: document.getElementById('primaryColor').value,
+        s: document.getElementById('secondaryColor').value
+      };
+    }
+    return themes[currentTheme] || themes.default;
+  }
+
+  function updatePreviewColors() {
+    const { p, s } = getThemeColors();
+    document.getElementById('prevCover').style.background = `linear-gradient(135deg, ${p}, ${s})`;
+    document.getElementById('prevRole').style.color = p;
+    updateBtnPreviewColor(p);
+  }
+
+  // BUTTON STYLE
+  function selectBtnStyle(el) {
+    document.querySelectorAll('.btn-style-opt').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    currentBtnStyle = el.dataset.style;
+    updateBtnRadius();
+  }
+
+  function getBtnRadius() {
+    const radii = { rounded: '50px', soft: '10px', square: '0', outline: '50px', shadow: '10px', glass: '10px' };
+    return radii[currentBtnStyle] || '50px';
+  }
+
+  function updateBtnRadius() {
+    const r = getBtnRadius();
+    ['prevWa', 'prevIg', 'prevEm'].forEach(id => {
+      document.getElementById(id).style.borderRadius = r;
+    });
+  }
+
+  function updateBtnPreviewColor(color) {
+    if (currentBtnStyle === 'outline') return;
+    // keep social colors
+  }
+
+  // BG
+  function selectBg(el) {
+    document.querySelectorAll('.bg-opt').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    currentBg = el.dataset.bg;
+    document.getElementById('bgColorPicker').style.display = currentBg === 'color' ? 'block' : 'none';
+    updatePhoneBg();
+  }
+
+  function updatePhoneBg() {
+    const screen = document.getElementById('phoneScreen');
+    if (currentBg === 'color') {
+      screen.style.background = document.getElementById('bgColor').value;
+    } else if (bgStyles[currentBg]) {
+      screen.style.background = bgStyles[currentBg].bg;
+    }
+  }
+
+  document.getElementById('bgColor').addEventListener('input', updatePhoneBg);
+
+  // LIVE PREVIEW
   document.getElementById('name').addEventListener('input', e => {
     document.getElementById('prevName').textContent = e.target.value || 'Tu Nombre';
   });
@@ -517,15 +755,11 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
   });
 
   document.getElementById('bio').addEventListener('input', e => {
-    document.getElementById('prevBio').textContent = e.target.value || 'Tu biografía aparecerá aquí...';
+    document.getElementById('prevBio').textContent = e.target.value || 'Tu biografía...';
   });
 
   document.getElementById('whatsapp').addEventListener('input', e => {
     document.getElementById('prevWa').style.display = e.target.value ? 'block' : 'none';
-  });
-
-  document.getElementById('website').addEventListener('input', e => {
-    document.getElementById('prevWeb').style.display = e.target.value ? 'block' : 'none';
   });
 
   document.getElementById('instagram').addEventListener('input', e => {
@@ -537,23 +771,13 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
   });
 
   document.getElementById('username').addEventListener('input', e => {
-    const val = e.target.value || 'tunombre';
-    document.getElementById('prevUrl').textContent = 'cardlink.app/' + val;
+    document.getElementById('prevUrl').textContent = 'cardlink.app/' + (e.target.value || 'tunombre');
   });
 
-  // Colores
-  function updateColors() {
-    const p = document.getElementById('primaryColor').value;
-    const s = document.getElementById('secondaryColor').value;
-    document.getElementById('prevCover').style.background = `linear-gradient(135deg, ${p}, ${s})`;
-    document.getElementById('prevRole').style.color = p;
-  }
+  document.getElementById('primaryColor').addEventListener('input', updatePreviewColors);
+  document.getElementById('secondaryColor').addEventListener('input', updatePreviewColors);
 
-  document.getElementById('primaryColor').addEventListener('input', updateColors);
-  document.getElementById('secondaryColor').addEventListener('input', updateColors);
-  updateColors();
-
-  // Avatar preview
+  // AVATAR
   document.getElementById('avatarFile').addEventListener('change', e => {
     const file = e.target.files[0];
     if (!file) return;
@@ -565,9 +789,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
     reader.readAsDataURL(file);
   });
 
-  // Links personalizados
-  let customLinks = [];
-
+  // CUSTOM LINKS
   document.getElementById('addLinkBtn').addEventListener('click', () => {
     const id = Date.now();
     customLinks.push({ id, label: '', url: '' });
@@ -578,7 +800,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
     const list = document.getElementById('linksList');
     list.innerHTML = customLinks.map(link => `
       <div class="link-item">
-        <input type="text" placeholder="Nombre del link" value="${link.label}"
+        <input type="text" placeholder="Nombre" value="${link.label}"
           oninput="updateLink(${link.id}, 'label', this.value)"/>
         <input type="url" placeholder="https://..." value="${link.url}"
           oninput="updateLink(${link.id}, 'url', this.value)"/>
@@ -597,7 +819,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
     renderLinks();
   }
 
-  // Toast
+  // TOAST
   function showToast(msg, type = '') {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -605,18 +827,24 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
     setTimeout(() => t.className = 'toast', 3000);
   }
 
-  // Guardar
+  // INIT
+  updatePreviewColors();
+  updatePhoneBg();
+
+  // SAVE
   document.getElementById('saveBtn').addEventListener('click', async () => {
     const username = document.getElementById('username').value.trim().toLowerCase();
     const name = document.getElementById('name').value.trim();
 
     if (!username) return showToast('⚠️ Escribe tu username', 'error');
     if (!name) return showToast('⚠️ Escribe tu nombre', 'error');
-    if (!/^[a-z0-9_-]+$/.test(username)) return showToast('⚠️ Username solo letras, números y guiones', 'error');
+    if (!/^[a-z0-9_-]+$/.test(username)) return showToast('⚠️ Solo letras, números y guiones', 'error');
 
     const btn = document.getElementById('saveBtn');
     btn.disabled = true;
     btn.textContent = 'Guardando...';
+
+    const colors = getThemeColors();
 
     const data = {
       username,
@@ -630,9 +858,13 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
       linkedin: document.getElementById('linkedin').value.trim(),
       email: document.getElementById('email').value.trim(),
       custom_links: customLinks,
-      primary_color: document.getElementById('primaryColor').value,
-      secondary_color: document.getElementById('secondaryColor').value,
+      primary_color: colors.p,
+      secondary_color: colors.s,
       avatar_url: document.getElementById('avatarPreview').src,
+      button_style: currentBtnStyle,
+      bg_type: currentBg,
+      bg_color: document.getElementById('bgColor').value,
+      theme: currentTheme
     };
 
     try {
@@ -648,19 +880,18 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
       });
 
       if (!res.ok) {
-  const errData = await res.text();
-  throw new Error(errData);
-}
+        const errData = await res.text();
+        throw new Error(errData);
+      }
+
       const url = `${window.location.origin}/card/${username}`;
       document.getElementById('urlBox').style.display = 'block';
       document.getElementById('publicUrl').textContent = url;
-      showToast('✅ Tarjeta guardada exitosamente', 'success');
+      showToast('✅ Tarjeta guardada!', 'success');
 
     } catch (err) {
-  showToast('❌ Error: ' + err.message, 'error');
-  console.log('Error completo:', err);
-  alert('Error: ' + err.message);
-}
+      showToast('❌ Error: ' + err.message, 'error');
+    }
 
     btn.disabled = false;
     btn.textContent = 'Guardar tarjeta';
