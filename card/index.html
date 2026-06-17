@@ -239,53 +239,104 @@
     // Meta tags dinámicos
     document.title = `${card.name} - CardLink`;
 
+    // --- BUTTON STYLE ---
+    const btnRadii = {
+      rounded: '50px',
+      soft:    '10px',
+      square:  '0px',
+      outline: '50px',
+      shadow:  '10px',
+      glass:   '10px'
+    };
+    const btnStyle = card.button_style || 'rounded';
+    const btnRadius = btnRadii[btnStyle] || '50px';
+
+    // Para outline y glass los botones tienen tratamiento especial
+    const isOutline = btnStyle === 'outline';
+    const isGlass   = btnStyle === 'glass';
+    const hasShadow = btnStyle === 'shadow';
+
+    function makeLinkStyle(bgColor) {
+      if (isOutline) {
+        return `style="border-radius:${btnRadius}; background:transparent; border:2px solid ${bgColor}; color:${bgColor};"`;
+      }
+      if (isGlass) {
+        return `style="border-radius:${btnRadius}; background:${bgColor}33; backdrop-filter:blur(10px); color:#fff; border:1px solid ${bgColor}66;"`;
+      }
+      if (hasShadow) {
+        return `style="border-radius:${btnRadius}; box-shadow:0 4px 14px ${bgColor}55;"`;
+      }
+      return `style="border-radius:${btnRadius};"`;
+    }
+
+    // --- BACKGROUND ---
+    const p = card.primary_color   || '#6c63ff';
+    const s = card.secondary_color || '#a855f7';
+    const bgStyles = {
+      white:    '#ffffff',
+      light:    '#f3f4f6',
+      dark:     '#111827',
+      gradient: `linear-gradient(135deg, #f5f3ff, #ede9fe)`,
+      mesh:     `radial-gradient(at 40% 20%, #ddd6fe 0px, transparent 50%),
+                 radial-gradient(at 80% 0%,  #e0f2fe 0px, transparent 50%),
+                 radial-gradient(at 0%  50%, #fce7f3 0px, transparent 50%), #f9fafb`,
+      color:    card.bg_color || '#f9fafb'
+    };
+    const bgValue = bgStyles[card.bg_type] || bgStyles.light;
+    const isDarkBg = card.bg_type === 'dark';
+
+    // Apply body background
+    document.body.style.background = bgValue;
+    if (isDarkBg) document.body.style.color = '#fff';
+
+    // --- LINKS HTML ---
     let linksHTML = '';
 
     if (card.whatsapp) {
       const num = card.whatsapp.replace(/\D/g, '');
-      linksHTML += `<a href="https://wa.me/${num}" target="_blank" class="link-btn whatsapp">💬 WhatsApp</a>`;
+      linksHTML += `<a href="https://wa.me/${num}" target="_blank" class="link-btn whatsapp" ${makeLinkStyle('#25d366')}>💬 WhatsApp</a>`;
     }
     if (card.website) {
-      linksHTML += `<a href="${card.website}" target="_blank" class="link-btn website">🌐 Sitio web</a>`;
+      linksHTML += `<a href="${card.website}" target="_blank" class="link-btn website" ${makeLinkStyle(p)}>🌐 Sitio web</a>`;
     }
     if (card.instagram) {
       const ig = card.instagram.replace('@', '');
-      linksHTML += `<a href="https://instagram.com/${ig}" target="_blank" class="link-btn instagram">📸 Instagram</a>`;
+      linksHTML += `<a href="https://instagram.com/${ig}" target="_blank" class="link-btn instagram" ${makeLinkStyle('#e6683c')}>📸 Instagram</a>`;
     }
     if (card.email) {
-      linksHTML += `<a href="mailto:${card.email}" class="link-btn email">📧 ${card.email}</a>`;
+      linksHTML += `<a href="mailto:${card.email}" class="link-btn email" ${makeLinkStyle('#374151')}>📧 ${card.email}</a>`;
     }
     if (card.linkedin) {
-      linksHTML += `<a href="${card.linkedin}" target="_blank" class="link-btn linkedin">💼 LinkedIn</a>`;
+      linksHTML += `<a href="${card.linkedin}" target="_blank" class="link-btn linkedin" ${makeLinkStyle('#0077b5')}>💼 LinkedIn</a>`;
     }
     if (card.twitter) {
       const tw = card.twitter.replace('@', '');
-      linksHTML += `<a href="https://twitter.com/${tw}" target="_blank" class="link-btn twitter">🐦 Twitter / X</a>`;
+      linksHTML += `<a href="https://twitter.com/${tw}" target="_blank" class="link-btn twitter" ${makeLinkStyle('#000')}>🐦 Twitter / X</a>`;
     }
 
     // Links personalizados
     if (card.custom_links && card.custom_links.length > 0) {
       card.custom_links.forEach(link => {
         if (link.label && link.url) {
-          linksHTML += `<a href="${link.url}" target="_blank" class="link-btn custom">🔗 ${link.label}</a>`;
+          linksHTML += `<a href="${link.url}" target="_blank" class="link-btn custom" ${makeLinkStyle('#6b7280')}>🔗 ${link.label}</a>`;
         }
       });
     }
 
     document.getElementById('app').innerHTML = `
-      <div class="cover" style="background: linear-gradient(135deg, ${card.primary_color || '#6c63ff'}, ${card.secondary_color || '#a855f7'})"></div>
+      <div class="cover" style="background: linear-gradient(135deg, ${p}, ${s})"></div>
       <div class="page">
-        <div class="profile-box">
+        <div class="profile-box" style="${isDarkBg ? 'background:#1f2937; color:#fff;' : ''}">
           <img src="${avatarSrc}" class="avatar" alt="${card.name}"/>
-          <h1 class="name">${card.name}</h1>
-          ${card.role ? `<p class="role" style="color:${card.primary_color || '#6c63ff'}">${card.role}</p>` : ''}
-          ${card.bio ? `<p class="bio">${card.bio}</p>` : ''}
+          <h1 class="name" style="${isDarkBg ? 'color:#fff;' : ''}">${card.name}</h1>
+          ${card.role ? `<p class="role" style="color:${p}">${card.role}</p>` : ''}
+          ${card.bio ? `<p class="bio" style="${isDarkBg ? 'color:#9ca3af;' : ''}">${card.bio}</p>` : ''}
           <div class="links-section">
             ${linksHTML}
           </div>
         </div>
-        <div class="brand">
-          Creado con <a href="/">CardLink</a>
+        <div class="brand" style="${isDarkBg ? 'color:#6b7280;' : ''}">
+          Creado con <a href="/" style="color:${p}">CardLink</a>
         </div>
       </div>
     `;
